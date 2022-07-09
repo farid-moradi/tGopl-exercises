@@ -1,15 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"image/gif"
 	"io"
-	"log"
 	"math"
 	"math/rand"
-	"net/http"
+	"os"
 )
 
 var palette = []color.Color{color.Black,
@@ -29,10 +27,7 @@ const (
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		lissajous(w)
-	})
-	log.Fatal(http.ListenAndServe("localhost:8000", nil))
+	lissajous(os.Stdout)
 }
 
 func lissajous(out io.Writer) {
@@ -45,7 +40,6 @@ func lissajous(out io.Writer) {
 	)
 	var colorIndex uint8 = 0
 	freq := rand.Float64() * 3.0
-	fmt.Println(freq)
 	anim := gif.GIF{LoopCount: nframes}
 	phase := 0.0
 	for i := 0; i < nframes; i++ {
